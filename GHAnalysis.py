@@ -122,7 +122,7 @@ class Run:
                             self.parser.parse_args().user, self.parser.parse_args().event)
                 elif self.parser.parse_args().repo:
                     res = self.data.getEventsRepos(
-                        self.parser.parse_args().reop, self.parser.parse_args().event)
+                        self.parser.parse_args().repo, self.parser.parse_args().event)
                 else:
                     raise RuntimeError('error: argument -l or -c are required')
             else:
