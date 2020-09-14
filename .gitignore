@@ -127,3 +127,11 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# Others
+test/
+bigdata/
+smalldata/
+1.json
+2.json
+3.json
