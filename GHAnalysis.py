@@ -17,6 +17,9 @@ class Data:
 
     def __init(self, dict_address: str):
         for root, dic, files in os.walk(dict_address):
+            self.__4Events4PerP = {}
+            self.__4Events4PerR = {}
+            self.__4Events4PerPPerR = {}
             for f in files:
                 json_list = []
                 if f[-5:] == '.json':
@@ -30,9 +33,6 @@ class Data:
                         except:
                             pass
                 records = self.__listOfNestedDict2ListOfDict(json_list)
-                self.__4Events4PerP = {}
-                self.__4Events4PerR = {}
-                self.__4Events4PerPPerR = {}
                 for i in records:
                     if not self.__4Events4PerP.get(i['actor__login'], 0):
                         self.__4Events4PerP.update({i['actor__login']: {}})
