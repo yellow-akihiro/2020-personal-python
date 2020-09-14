@@ -16,9 +16,9 @@ class Data:
         self.__4Events4PerPPerR = json.loads(x)
 
     def __init(self, dict_address: str):
-        json_list = []
         for root, dic, files in os.walk(dict_address):
             for f in files:
+                json_list = []
                 if f[-5:] == '.json':
                     json_path = f
                     x = open(dict_address+'\\'+json_path,
@@ -29,24 +29,24 @@ class Data:
                             json_list.append(json.loads(_str))
                         except:
                             pass
-        records = self.__listOfNestedDict2ListOfDict(json_list)
-        self.__4Events4PerP = {}
-        self.__4Events4PerR = {}
-        self.__4Events4PerPPerR = {}
-        for i in records:
-            if not self.__4Events4PerP.get(i['actor__login'], 0):
-                self.__4Events4PerP.update({i['actor__login']: {}})
-                self.__4Events4PerPPerR.update({i['actor__login']: {}})
-            self.__4Events4PerP[i['actor__login']][i['type']
-                                         ] = self.__4Events4PerP[i['actor__login']].get(i['type'], 0)+1
-            if not self.__4Events4PerR.get(i['repo__name'], 0):
-                self.__4Events4PerR.update({i['repo__name']: {}})
-            self.__4Events4PerR[i['repo__name']][i['type']
-                                       ] = self.__4Events4PerR[i['repo__name']].get(i['type'], 0)+1
-            if not self.__4Events4PerPPerR[i['actor__login']].get(i['repo__name'], 0):
-                self.__4Events4PerPPerR[i['actor__login']].update({i['repo__name']: {}})
-            self.__4Events4PerPPerR[i['actor__login']][i['repo__name']][i['type']
-                                                          ] = self.__4Events4PerPPerR[i['actor__login']][i['repo__name']].get(i['type'], 0)+1
+                records = self.__listOfNestedDict2ListOfDict(json_list)
+                self.__4Events4PerP = {}
+                self.__4Events4PerR = {}
+                self.__4Events4PerPPerR = {}
+                for i in records:
+                    if not self.__4Events4PerP.get(i['actor__login'], 0):
+                        self.__4Events4PerP.update({i['actor__login']: {}})
+                        self.__4Events4PerPPerR.update({i['actor__login']: {}})
+                    self.__4Events4PerP[i['actor__login']][i['type']
+                                                ] = self.__4Events4PerP[i['actor__login']].get(i['type'], 0)+1
+                    if not self.__4Events4PerR.get(i['repo__name'], 0):
+                        self.__4Events4PerR.update({i['repo__name']: {}})
+                    self.__4Events4PerR[i['repo__name']][i['type']
+                                            ] = self.__4Events4PerR[i['repo__name']].get(i['type'], 0)+1
+                    if not self.__4Events4PerPPerR[i['actor__login']].get(i['repo__name'], 0):
+                        self.__4Events4PerPPerR[i['actor__login']].update({i['repo__name']: {}})
+                    self.__4Events4PerPPerR[i['actor__login']][i['repo__name']][i['type']
+                                                                ] = self.__4Events4PerPPerR[i['actor__login']][i['repo__name']].get(i['type'], 0)+1
         with open('1.json', 'w', encoding='utf-8') as f:
             json.dump(self.__4Events4PerP,f)
         with open('2.json', 'w', encoding='utf-8') as f:
