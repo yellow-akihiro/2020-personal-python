@@ -32,18 +32,18 @@ def init(directory):
     pass
 
 
-def query(type, user="", repo="", event=""):
+def query(query_type, user="", repo="", event=""):
     connector = sqlite3.connect("data.db")
     getCount0 = 'SELECT * FROM GITHUB WHERE user_name=? AND event=?'
     getCount1 = 'SELECT * FROM GITHUB WHERE repo_name=? AND event=?'
     getCount2 = 'SELECT * FROM GITHUB WHERE user_name=? AND repo_name=? AND event=?'
-    if type == 0:
+    if query_type == 0:
         # 查用户事件数
         value = connector.execute(getCount0, (user, event))
-    elif type == 1:
+    elif query_type == 1:
         # 查仓库事件数
         value = connector.execute(getCount1, (repo, event))
-    elif type == 2:
+    elif query_type == 2:
         # 查用户在仓库的事件数
         value = connector.execute(getCount2, (user, repo, event))
     print(len(list(value)))
@@ -64,11 +64,13 @@ if __name__ == '__main__':
     if args.init:
         init(args.init)
     else:
+        # 未初始化
         if not os.path.exists('data.db'):
-            raise RuntimeError('Error: Please initialize first.')
+            raise RuntimeError('Error: Initialization is required.')
         elif args.event:
             if args.user:
                 if args.repo:
+                    # 三个参数都提供即为第 3 种查询
                     query(2, user=args.user, repo=args.repo, event=args.event)
                 else:
                     query(0, user=args.user, event=args.event)
@@ -77,4 +79,4 @@ if __name__ == '__main__':
             else:
                 raise RuntimeError('Error: Argument -l or -c is required.')
         else:
-            raise RuntimeError('Error: Argument -e is required.')
+            raise RuntimeError('Error: An argument is required.')
