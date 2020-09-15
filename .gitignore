@@ -135,3 +135,5 @@ smalldata/
 1.json
 2.json
 3.json
+data.db
+data.db-journal
