@@ -4,17 +4,6 @@ import json
 import sqlite3
 
 
-# getCount1 = 'SELECT * FROM GITHUB WHERE user_name=? AND event=?'
-# getCount2 = 'SELECT * FROM GITHUB WHERE repo_name=? AND event=?'
-# getCount3 = 'SELECT * FROM GITHUB WHERE user_name=? AND repo_name=? AND event=?'
-# value = connector.execute(getCount1, ('waleko', 'PushEvent'))
-# print(len(list(value)))
-# value = connector.execute(getCount2, ('katzer/cordova-plugin-background-mode', 'PushEvent'))
-# print(len(list(value)))
-# value = connector.execute(getCount3, ('cdupuis', 'atomist/automation-client', 'PushEvent'))
-# print(len(list(value)))
-# connector.close()
-
 def init(directory):
     # 初始化建表
     connector = sqlite3.connect("data.db")
@@ -38,18 +27,27 @@ def init(directory):
                     connector.execute(sqlInsert, insertData)
     # 实际写入文件
     connector.commit()
+    print(0)
+    connector.close()
     pass
 
 
-def query_user():
-    pass
-
-
-def query_repo():
-    pass
-
-
-def query_user_and_repo():
+def query(type, user="", repo="", event=""):
+    connector = sqlite3.connect("data.db")
+    getCount0 = 'SELECT * FROM GITHUB WHERE user_name=? AND event=?'
+    getCount1 = 'SELECT * FROM GITHUB WHERE repo_name=? AND event=?'
+    getCount2 = 'SELECT * FROM GITHUB WHERE user_name=? AND repo_name=? AND event=?'
+    if type == 0:
+        # 查用户事件数
+        value = connector.execute(getCount0, (user, event))
+    elif type == 1:
+        # 查仓库事件数
+        value = connector.execute(getCount1, (repo, event))
+    elif type == 2:
+        # 查用户在仓库的事件数
+        value = connector.execute(getCount2, (user, repo, event))
+    print(len(list(value)))
+    connector.close()
     pass
 
 
@@ -71,11 +69,11 @@ if __name__ == '__main__':
         elif args.event:
             if args.user:
                 if args.repo:
-                    query_user_and_repo()
+                    query(2, user=args.user, repo=args.repo, event=args.event)
                 else:
-                    query_user()
+                    query(0, user=args.user, event=args.event)
             elif args.repo:
-                query_repo()
+                query(1, repo=args.repo, event=args.event)
             else:
                 raise RuntimeError('Error: Argument -l or -c is required.')
         else:
