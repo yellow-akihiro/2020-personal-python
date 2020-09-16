@@ -6,8 +6,9 @@ import sqlite3
 
 def init(directory):
     # 初始化建表
+    if os.path.exists("data.db"):
+        os.remove("data.db")
     connector = sqlite3.connect("data.db")
-    connector.execute('DROP TABLE IF EXISTS GITHUB;')
     connector.execute('''CREATE TABLE GITHUB (
                 user_name   TEXT NOT NULL,
                 repo_name   TEXT NOT NULL,
@@ -79,4 +80,4 @@ if __name__ == '__main__':
             else:
                 raise RuntimeError('Error: Argument -l or -c is required.')
         else:
-            raise RuntimeError('Error: An argument is required.')
+            raise RuntimeError('Error: Argument -e is required.')
