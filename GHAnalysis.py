@@ -29,7 +29,6 @@ def init(directory):
     connector.commit()
     print(0)
     connector.close()
-    pass
 
 
 def query(query_type, user="", repo="", event=""):
@@ -46,9 +45,10 @@ def query(query_type, user="", repo="", event=""):
     elif query_type == 2:
         # 查用户在仓库的事件数
         value = connector.execute(getCount2, (user, repo, event))
-    print(len(list(value)))
+    result = len(list(value))
+    print(result)
     connector.close()
-    pass
+    return result
 
 
 if __name__ == '__main__':
