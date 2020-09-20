@@ -9,7 +9,7 @@ def init(directory):
     if os.path.exists('tempdata'):
         shutil.rmtree('tempdata')
     os.mkdir('tempdata')
-    pool = multiprocessing.Pool(5)
+    pool = multiprocessing.Pool()
     for fileName in os.listdir(directory):
         if fileName.endswith(".json"):
             pool.apply_async(read, (directory, fileName,))
